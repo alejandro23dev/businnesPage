@@ -31,7 +31,10 @@ class Client extends BaseController
 
     public function index(): string
     {
+        $data = array();
         $data['page'] = 'notLogin/main';
+        $data['categories'] = $this->objMainModel->objData('category');
+        $data['products'] = $this->objMainModel->objData('products');
         return view('client/header/index', $data);
     }
 

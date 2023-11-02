@@ -59,10 +59,10 @@
                                 <img alt="Logo" src="<?php echo base_url('public/assets/media/avatars/300-1.jpg'); ?>" />
                             </div>
                             <div class="d-flex flex-column">
-                                <div class="fw-bold d-flex align-items-center fs-5">Robert Fox
+                                <div class="fw-bold d-flex align-items-center fs-5"><?php echo $user['user']; ?>
                                     <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2"></span>
                                 </div>
-                                <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">robert@kt.com</a>
+                                <a href="#" class="fw-semibold text-muted text-hover-primary fs-7"><?php echo $user['email']; ?></a>
                             </div>
                         </div>
                     </div>
@@ -151,44 +151,10 @@
                         <a href="../../demo1/dist/account/settings.html" class="menu-link px-5">Account Settings</a>
                     </div>
                     <div class="menu-item px-5">
-                        <a href="../../demo1/dist/authentication/layouts/corporate/sign-in.html" class="menu-link px-5">Sign Out</a>
+                        <a href="<?php echo base_url('Admin'); ?>" class="menu-link px-5">Sign Out</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- SECTION CATEGORIES -->
-<div class="row mt-6 text-center">
-    <?php foreach ($categories as $category) : ?>
-        <div class="col-2 hover-scale rounded-4 m-1" style="cursor: pointer;">
-            <p><?php echo $category->name; ?></p>
-        </div>
-    <?php endforeach; ?>
-</div>
-<!-- SECTION PRODUCTS CARDS -->
-<div class="row mt-6">
-    <?php foreach ($products as $product) : ?>
-        <div class="card shadow rounded col-3 m-6 hover-elevate-up">
-            <div class="card-body">
-                <div class="text-center">
-                    <img src="<?php echo base_url('public/assets/media/avatars/300-1.jpg'); ?>" class="shadow rounded-circle w-250px hover-scale" alt="Imagen">
-                </div>
-                <div class="mt-5">
-                    <h2><?php echo $product->name; ?></h2>
-                    <h6><?php if (empty($product->description)) echo "<span class='text-muted fst-italic'><i class='fa fa-info-circle text-warning'></i> No se ha proporcionado una descripción de este producto</span>";
-                        else echo $product->description; ?></h6>
-                    <h1 class="text-center mt-6">$<?php echo $product->price; ?></h1>
-                </div>
-                <div class="mt-5 text-center">
-                    <button type="button" class="btn btn-primary shadow">Comprar <i class="fa fa-shopping-basket" data-id="<?php echo $product->id; ?>"></i></button>
-                </div>
-                <p class="text-center mt-5 text-muted"><?php if($product->quantity < 25) echo "Quedan menos de 25 unidades"; ?></p>
-            </div>
-        </div>
-    <?php endforeach; ?>
-</div>
-<!-- SECTION FOOTER -->
-<div class="container bg-primary rounded shadow p-2 text-white position-fixed fixed-bottom">
-    <h1 class="text-white">Footer</h1>
 </div>

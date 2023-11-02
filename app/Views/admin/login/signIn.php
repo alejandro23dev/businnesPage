@@ -40,7 +40,7 @@
         if (resultCheckRequiredValues == 0) {
             $.ajax({
                 type: "post",
-                url: "<?php echo base_url('Login/login'); ?>",
+                url: "<?php echo base_url('Authentication/signInProcess'); ?>",
                 data: {
                     'user': $('#user').val(),
                     'password': $('#password').val(),
@@ -49,31 +49,37 @@
                 success: function(response) {
                     switch (response.error) {
                         case 0:
-                            window.location.href = "<?php echo base_url('Admin'); ?>"
+                            window.location.href = "<?php echo base_url('Admin/main'); ?>"
                             break;
                         case 1:
                             if (response.msg == 'USER_NOT_FOUND') {
+                                $('#btn-login').removeAttr('disabled');
                                 $('#user').addClass('is-invalid');
                                 Swal.fire({
                                     title: 'Usuario no encontrado',
                                     icon: 'error',
-                                    position: 'top-end', // posición personalizada
+                                    position: 'top-end',
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
-                            } else if (response.msg == 'STATUS') {
+                            }
+                            if (response.msg == 'STATUS') {
+                                $('#btn-login').removeAttr('disabled');
                                 Swal.fire({
                                     title: 'Primero debe de activar su cuenta',
                                     icon: 'warning',
-                                    position: 'top-end', // posición personalizada
+                                    position: 'top-end',
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
-                            } else if (response.msg == 'INVALID_PASSWORD') {
+                            }
+                            if (response.msg == 'INVALID_PASSWORD') {
+                                $('#btn-login').removeAttr('disabled');
+                                $('#password').addClass('is-invalid');
                                 Swal.fire({
                                     title: 'Contraseña incorrecta',
                                     icon: 'error',
-                                    position: 'top-end', // posición personalizada
+                                    position: 'top-end',
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
@@ -82,15 +88,22 @@
                     }
                 },
                 error: function(error) {
-
+                    $('#btn-login').removeAttr('disabled');
+                    Swal.fire({
+                        title: 'Ha ocurrido un error',
+                        icon: 'error',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             });
         } else {
-            $(this).removeAttr('disabled');
+            $('#btn-login').removeAttr('disabled');
             Swal.fire({
                 title: 'Complete la Información',
                 icon: 'warning',
-                position: 'top-end', // posición personalizada
+                position: 'top-end',
                 showConfirmButton: false,
                 timer: 1500
             })

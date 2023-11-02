@@ -33,17 +33,113 @@ class Admin extends BaseController
     }
 
     public function index(): string
-    {   
-         # Verify Admin Session
-         if (empty($this->objSession->get('user')) || $this->objSession->get('user')['rol'] != 'admin') {
+    {
+        # Verify Admin Session
+        if (empty($this->objSession->get('user')) || $this->objSession->get('user')['role'] != 'admin') {
+            $response = array();
+            $response['error'] = 2;
+            $response['msg'] = 'SESSION_EXPIRED';
+            return json_encode($response);
+        }
+        $data = array();
+        $data['user'] = $this->objSession->get('user');
+        $data['page'] = 'admin/main';
+        return view('admin/header/index', $data);
+    }
+
+    public function showViewProducts(): string
+    {
+        # Verify Admin Session
+        if (empty($this->objSession->get('user')) || $this->objSession->get('user')['role'] != 'admin') {
+            $response = array();
+            $response['error'] = 2;
+            $response['msg'] = 'SESSION_EXPIRED';
+            return json_encode($response);
+        }
+        $data = array();
+        $data['user'] = $this->objSession->get('user');
+        $data['page'] = 'admin/products/products';
+        $data['products'] = $this->objMainModel->objData('products');
+        return view('admin/header/index', $data);
+    }
+
+    public function showViewEmployees(): string
+    {
+        # Verify Admin Session
+        if (empty($this->objSession->get('user')) || $this->objSession->get('user')['role'] != 'admin') {
+            $response = array();
+            $response['error'] = 2;
+            $response['msg'] = 'SESSION_EXPIRED';
+            return json_encode($response);
+        }
+        $data = array();
+        $data['user'] = $this->objSession->get('user');
+        $data['page'] = 'admin/main';
+        return view('admin/header/index', $data);
+    }
+
+    public function showViewSales(): string
+    {
+        # Verify Admin Session
+        if (empty($this->objSession->get('user')) || $this->objSession->get('user')['role'] != 'admin') {
+            $response = array();
+            $response['error'] = 2;
+            $response['msg'] = 'SESSION_EXPIRED';
+            return json_encode($response);
+        }
+        $data = array();
+        $data['user'] = $this->objSession->get('user');
+        $data['page'] = 'admin/main';
+        return view('admin/header/index', $data);
+    }
+
+    public function showViewCreateProduct(): string
+    {
+        # Verify Admin Session
+        if (empty($this->objSession->get('user')) || $this->objSession->get('user')['role'] != 'admin') {
+            $response = array();
+            $response['error'] = 2;
+            $response['msg'] = 'SESSION_EXPIRED';
+            return json_encode($response);
+        }
+        $data = array();
+        $data['user'] = $this->objSession->get('user');
+        $data['page'] = 'admin/products/createProduct';
+        $data['categories'] = $this->objMainModel->objData('category');
+        return view('admin/header/index', $data);
+    }
+
+    public function createProduct(): string
+    {
+        # Verify Admin Session
+        if (empty($this->objSession->get('user')) || $this->objSession->get('user')['role'] != 'admin') {
             $response = array();
             $response['error'] = 2;
             $response['msg'] = 'SESSION_EXPIRED';
             return json_encode($response);
         }
 
-        $data['page'] = 'admin/main';
-        return view('admin/header/index', $data);
-       
+        $productID = '';
+        $chars = '0123456789';
+        $length = 10;
+
+        for ($i = 0; $i < $length; $i++) {
+            $index = mt_rand(0, strlen($chars) - 1);
+            $productID .= $chars[$index];
+        }
+
+        $data = array();
+        $data['productID'] = $productID;
+        $data['name'] = htmlspecialchars(trim($this->objRequest->getPost('name')));
+        $data['description'] = htmlspecialchars(trim($this->objRequest->getPost('description')));
+        $data['price'] = htmlspecialchars(trim($this->objRequest->getPost('price')));
+        $data['status'] = htmlspecialchars(trim($this->objRequest->getPost('status')));
+        $data['categoryID'] = htmlspecialchars(trim($this->objRequest->getPost('category')));
+        $data['quantity'] = htmlspecialchars(trim($this->objRequest->getPost('quantity')));
+
+        $response = $this->objMainModel->objCreate('products', $data);
+
+        return json_encode($response);
     }
 }
+    //var_dump($data['user']);exit();
