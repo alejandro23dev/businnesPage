@@ -76,8 +76,18 @@
                             <?php endforeach; ?>
                         </select>
                         <div class="text-muted fs-7 mb-7">Añada su producto a una categoría.</div>
-                        <a href="../../demo1/dist/apps/ecommerce/catalog/add-category.html" class="btn btn-light-primary btn-sm mb-10">
+                        <a href="#" id="btn-createCategory" class="btn btn-light-primary btn-sm mb-10">
                             <i class="ki-duotone ki-plus fs-2"></i>Crear nueva categoría</a>
+                        <label class="form-label">SubCategoría</label>
+                        <select id="sel-subCategory" class="form-select mb-2" data-control="select2" data-placeholder="Seleccione una opción">
+                            <option value="" hidden></option>
+                            <?php foreach ($subCategories as $subCategory) : ?>
+                                <option value="<?php echo $subCategory->id ?>"><?php echo $subCategory->name ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="text-muted fs-7 mb-7">Añada su producto a una subCategoría.</div>
+                        <a href="#" id="btn-createSubCategory" class="btn btn-light-primary btn-sm mb-10">
+                            <i class="ki-duotone ki-plus fs-2"></i>Crear nueva subCategoría</a>
                     </div>
                 </div>
             </div>
@@ -141,6 +151,28 @@
 <?php echo view('functionsJS/formValidation'); ?>
 
 <script>
+    $('#btn-createCategory').on('click', function() {
+        $.ajax({
+            type: "post",
+            url: "<?php echo base_url('Admin/showViewModalCreateCategory'); ?>",
+            dataType: "html",
+            success: function(response) {
+                $('#modal').html(response);
+            }
+        });
+    });
+
+    $('#btn-createSubCategory').on('click', function() {
+        $.ajax({
+            type: "post",
+            url: "<?php echo base_url('Admin/showViewModalCreateSubCategory'); ?>",
+            dataType: "html",
+            success: function(response) {
+                $('#modal').html(response);
+            }
+        });
+    });
+
     $('#btn-save').on('click', function() {
         let resultCheckRequiredValues = checkRequiredValues('required');
         $(this).attr('disabled', true);
@@ -154,6 +186,7 @@
                     'price': $('#productPrice').val(),
                     'status': $('#sel-status').val(),
                     'category': $('#sel-category').val(),
+                    'subCategory': $('#sel-subCategory').val(),
                     'quantity': $('#productQuantity').val(),
                 },
                 dataType: "json",
@@ -163,7 +196,6 @@
                             Swal.fire({
                                 title: 'Exito',
                                 icon: 'success',
-                                position: 'top-end',
                                 showConfirmButton: false,
                                 timer: 1500
                             })
@@ -182,7 +214,6 @@
                     Swal.fire({
                         title: 'Ha ocurrido un error',
                         icon: 'error',
-                        position: 'top-end',
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -193,7 +224,6 @@
             Swal.fire({
                 title: 'Complete la Información',
                 icon: 'warning',
-                position: 'top-end',
                 showConfirmButton: false,
                 timer: 1500
             })

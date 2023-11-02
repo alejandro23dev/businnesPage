@@ -22,6 +22,25 @@ class MainModel extends Model
         return $query->get()->getResult();
     }
 
+    public function getProducts()
+    {
+        $query = $this->db->table('products')
+            ->select('*')
+            ->where('status !=', '');
+
+        return $query->get()->getResult();
+    }
+
+    public function getProductsByCategory($categoryID)
+    {
+        $query = $this->db->table('products')
+            ->select('*')
+            ->where('status !=', '')
+            ->where('categoryID', $categoryID);
+
+        return $query->get()->getResult();
+    }
+
     public function objCreate($table, $data)
     {
         $this->db->table($table)

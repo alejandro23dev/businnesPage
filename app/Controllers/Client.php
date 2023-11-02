@@ -32,9 +32,9 @@ class Client extends BaseController
     public function index(): string
     {
         $data = array();
-        $data['page'] = 'notLogin/main';
+        $data['page'] = 'client/main';
         $data['categories'] = $this->objMainModel->objData('category');
-        $data['products'] = $this->objMainModel->objData('products');
+        $data['products'] = $this->objMainModel->getProducts();
         return view('client/header/index', $data);
     }
 
@@ -102,4 +102,22 @@ class Client extends BaseController
 
         return json_encode($response);
     } // ok
+
+    public function showProductsByCategory(): string
+    {
+
+        $categoryID = htmlspecialchars(trim($this->objRequest->getPost('id')));
+
+        $data = array();
+        $data['categories'] = $this->objMainModel->objData('category');
+        $data['categorySelected'] = $categoryID;
+        if ($categoryID == 1) {
+            $data['products'] = $this->objMainModel->getProducts();
+        } else {
+            $data['products'] = $this->objMainModel->getProductsByCategory($categoryID);
+        }
+
+
+        return view('client/main', $data);
+    }
 }

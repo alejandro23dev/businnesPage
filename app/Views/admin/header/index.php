@@ -36,6 +36,7 @@
 </head>
 
 <body>
+    <div id="modal"></div>
     <div class="container">
         <?php echo view($page); ?>
     </div>

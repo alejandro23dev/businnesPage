@@ -106,6 +106,7 @@ class Admin extends BaseController
         $data['user'] = $this->objSession->get('user');
         $data['page'] = 'admin/products/createProduct';
         $data['categories'] = $this->objMainModel->objData('category');
+        $data['subCategories'] = $this->objMainModel->objData('subCategory');
         return view('admin/header/index', $data);
     }
 
@@ -135,9 +136,89 @@ class Admin extends BaseController
         $data['price'] = htmlspecialchars(trim($this->objRequest->getPost('price')));
         $data['status'] = htmlspecialchars(trim($this->objRequest->getPost('status')));
         $data['categoryID'] = htmlspecialchars(trim($this->objRequest->getPost('category')));
+        $data['subcategoryID'] = htmlspecialchars(trim($this->objRequest->getPost('subCategory')));
         $data['quantity'] = htmlspecialchars(trim($this->objRequest->getPost('quantity')));
 
         $response = $this->objMainModel->objCreate('products', $data);
+
+        return json_encode($response);
+    }
+
+    public function showViewModalCreateCategory(): string
+    {
+        # Verify Admin Session
+        if (empty($this->objSession->get('user')) || $this->objSession->get('user')['role'] != 'admin') {
+            $response = array();
+            $response['error'] = 2;
+            $response['msg'] = 'SESSION_EXPIRED';
+            return json_encode($response);
+        }
+
+        return view('admin/modals/createCategory');
+    }
+
+    public function createCategory(): string
+    {
+        # Verify Admin Session
+        if (empty($this->objSession->get('user')) || $this->objSession->get('user')['role'] != 'admin') {
+            $response = array();
+            $response['error'] = 2;
+            $response['msg'] = 'SESSION_EXPIRED';
+            return json_encode($response);
+        }
+
+        $data['name'] = htmlspecialchars(trim($this->objRequest->getPost('name')));
+
+        # Check Duplicate Category
+        $checkName = $this->objMainModel->objCheckDuplicate('category', 'name', $data['name'], '');
+        if (!empty($checkName)) {
+            $response['error'] = 1;
+            $response['msg'] = "DUPLICATE_USER_NAME";
+            return json_encode($response);
+        }
+
+        $response = $this->objMainModel->objCreate('category', $data);
+
+        return json_encode($response);
+    }
+
+    public function showViewModalCreateSubCategory(): string
+    {
+        # Verify Admin Session
+        if (empty($this->objSession->get('user')) || $this->objSession->get('user')['role'] != 'admin') {
+            $response = array();
+            $response['error'] = 2;
+            $response['msg'] = 'SESSION_EXPIRED';
+            return json_encode($response);
+        }
+
+        $data['categories'] = $this->objMainModel->objData('category');
+
+        return view('admin/modals/createSubCategory',$data);
+    }
+
+    public function createSubCategory(): string
+    {
+        # Verify Admin Session
+        if (empty($this->objSession->get('user')) || $this->objSession->get('user')['role'] != 'admin') {
+            $response = array();
+            $response['error'] = 2;
+            $response['msg'] = 'SESSION_EXPIRED';
+            return json_encode($response);
+        }
+        $data = array();
+        $data['name'] = htmlspecialchars(trim($this->objRequest->getPost('name')));
+        $data['categoryID'] = htmlspecialchars(trim($this->objRequest->getPost('categoryID')));
+
+        # Check Duplicate subCategory
+        $checkName = $this->objMainModel->objCheckDuplicate('subcategory', 'name', $data['name'], '');
+        if (!empty($checkName)) {
+            $response['error'] = 1;
+            $response['msg'] = "DUPLICATE_USER_NAME";
+            return json_encode($response);
+        }
+
+        $response = $this->objMainModel->objCreate('subcategory', $data);
 
         return json_encode($response);
     }

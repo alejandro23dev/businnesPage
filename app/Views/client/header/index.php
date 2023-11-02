@@ -33,10 +33,15 @@
             });
         }
     </script>
-</head>
 
+</head>
+<style>
+    .active{
+        border-bottom: 2px solid #3e97ff;
+    }
+</style>
 <body>
-    <div class="container">
+    <div id="page" class="container">
         <?php echo view($page); ?>
     </div>
 </body>

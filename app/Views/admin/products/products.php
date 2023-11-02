@@ -42,7 +42,7 @@
             <!--begin::Card body-->
             <div class="card-body pt-0">
                 <!--begin::Table-->
-                <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_products_table">
+                <table class="table align-middle table-row-dashed fs-6 gy-5" id="dtProducts">
                     <thead>
                         <tr class="text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                             <th class="text-center">Producto</th>
@@ -74,10 +74,11 @@
                                 </td>
                                 <td class="text-center">
                                     <p><?php if ($product->status == 'active') echo "En Venta";
-                                        else echo "Pronto a la Venta" ?></p>
+                                        elseif ($product->status == 'comingSoon') echo "Pronto a la Venta";
+                                        else echo "No seleccionado" ?></p>
                                 </td>
                                 <td class="text-center">
-                                    <p></p>
+                                    <button type="button" class="btn bg-transparent btn-edit" data-id="<?php echo $product->id; ?>"><i class="fa fa-edit text-warning" title="Editar Producto"></i></button> <button type="button" class="btn bg-transparent btn-delete" data-id="<?php echo $product->id; ?>"><i class="fa fa-trash text-danger" title="Eliminar Producto"></i></button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
