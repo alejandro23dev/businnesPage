@@ -92,3 +92,20 @@ define('EVENT_PRIORITY_NORMAL', 100);
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
  */
 define('EVENT_PRIORITY_HIGH', 10);
+
+# Email Config
+define("EMAIL_PROTOCOL","smtp");
+define("EMAIL_SMTP_HOST","ssl://smtp.hostinger.com");
+define("EMAIL_SMTP_USER","dev@axleyherrera.com");
+define("EMAIL_SMTP_PASSWORD","@Axley01herrera");
+define("EMAIL_SMTP_PORT","465");
+define("EMAIL_SMTP_CRYPTO","TLS");
+define("EMAIL_MAIL_TYPE","html"); 
+
+define("COMPANY_NAME","E-Comerce");
+define("COMPANY_RECIPIENT_EMAIL","companyemail@example.com");
+define("COMPANY_PHONE","+1 (833) 597-7538");
+define("COMPANY_ADDRESS","2700 N. Macdill Ave, Suite: 211, Tampa, FL, 33607");
+
+# ENVIROMENT
+define("ENVIRONMENT","development");
